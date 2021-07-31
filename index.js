@@ -1,6 +1,7 @@
 const io = require("socket.io")(process.env.PORT || 8900, {
 	cors: {
-		origin: "https://friendlink-app.netlify.app/",
+		origin: "https://friendlink-app.netlify.app",
+		method: ["GET", "POST"],
 	},
 });
 
