@@ -1,6 +1,6 @@
-const io = require("socket.io")(8900, {
+const io = require("socket.io")(process.env.PORT || 8900, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: "https://friendlink-app.netlify.app/",
 	},
 });
 
@@ -15,7 +15,7 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (Id) => {
-    // console.log('inside getUser', Id);
+	// console.log('inside getUser', Id);
 	return users.find((user) => user.userId === Id);
 };
 
@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
 	console.log("A user connected to the socket server.");
 
 	socket.on("addUser", (userId) => {
-        // console.log('userId in addUser socket', userId, socket.id);
+		// console.log('userId in addUser socket', userId, socket.id);
 		addUser(userId, socket.id);
 		io.emit("getUsers", users);
 	});
@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
 	//send and get message
 	socket.on("sendMessage", ({ senderId, receiverId, message }) => {
 		const user = getUser(receiverId);
-        console.log('user before socketId', user);
+		console.log("user before socketId", user);
 		io.to(user?.socketId).emit("getMessage", {
 			senderId,
 			message,
